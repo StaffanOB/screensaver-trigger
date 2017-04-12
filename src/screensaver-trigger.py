@@ -10,7 +10,7 @@ class ScreensaverTrigger:
         mqttc = mqtt.Client("python_pub")
         mqttc.connect("bjornson.nu", 1883)
         mqttc.publish("home/device/laptop01", "{ \"status\": \" " + status + " \" }")
-        mqttc.loop(2) # timeout = 2
+        mqttc.loop(2)
 
     def __init__(self):
         DBusGMainLoop(set_as_default=True)
