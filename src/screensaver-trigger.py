@@ -4,6 +4,7 @@ import paho.mqtt.client as mqtt
 from gi.repository import GObject as gobject
 from dbus import SessionBus
 from dbus.mainloop.glib import DBusGMainLoop
+from subprocess import Popen
 
 class ScreensaverTrigger:
     def sendmqtt(self, status):
@@ -24,11 +25,12 @@ class ScreensaverTrigger:
         if ssOn == 1:
             # Screensaver turned on
             self.sendmqtt("Inactive")
+            Popen(["./scripts/ssStart"])
 
         else:
             # Screensaver turned off
             self.sendmqtt("Active")
-
+            Popen(["./scripts/ssStart"])
 
 
 
