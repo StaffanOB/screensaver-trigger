@@ -5,12 +5,28 @@ from gi.repository import GObject as gobject
 from dbus import SessionBus
 from dbus.mainloop.glib import DBusGMainLoop
 from subprocess import Popen
+import json
+import socket
 
 class ScreensaverTrigger:
+    def getDevice(self):
+        device = {}
+        device[socket.gethostname()] = {
+            'alias': 'laptop01',
+            'ip': '8.8.8.8',
+            'mac': '51:14:f4:54:de',
+            'status': {
+                'screensaver': 'on',
+                'lock': 'on'
+            }
+        }
+
+        return json.dumps(device)
+    
     def sendmqtt(self, status):
         mqttc = mqtt.Client("python_pub")
         mqttc.connect("bjornson.nu", 1883)
-        mqttc.publish("home/device/laptop01", "{ \"status\": \" " + status + " \" }")
+        mqttc.publish("home/device/laptop01", self.getDevice)
         mqttc.loop(2)
 
     def __init__(self):
